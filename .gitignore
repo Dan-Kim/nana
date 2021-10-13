@@ -1,0 +1,19 @@
+###############
+# Credentials #
+###############
+
+credentials.py
+
+#############
+# Constants #
+#############
+
+constants.py
+
+#########
+# Cache #
+#########
+
+__pycache__
+*.db-journal
+.idea
