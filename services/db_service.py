@@ -2,6 +2,7 @@ import sqlite3
 from typing import List
 
 from models.remind import Remind
+from models.banner import Banner
 
 NANA_DB = '../nana-db/nana.db'
 
