@@ -24,8 +24,8 @@ class Banner(commands.Cog):
     banner = random.choice(select_banners())
     banner_file_path = self.get_banner_file_path(str(banner.discord_id))
     with open(banner_file_path, 'rb') as f:
-      banner = f.read()
-      await guild.edit(banner=banner)
+      image = f.read()
+      await guild.edit(banner=image)
       increment_banner_count(banner.discord_id)
 
   async def guild_check(ctx):
