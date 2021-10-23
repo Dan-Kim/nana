@@ -6,9 +6,7 @@ import random
 
 from constants import MEMETEAM_DISCORD_SERVER_ID, BANNER_COMMAND_VALID_DISCORD_SERVER_IDS
 
-from serializers.banner_serializer import get_banner, get_random_banner
-
-from services.db_service import increment_banner_count
+from services.db_service import increment_banner_count, select_banners
 
 PERMITTED_BANNER_FILE_TYPES = ['png', 'jpg', 'jpeg', 'gif']
 
