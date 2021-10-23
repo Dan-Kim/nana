@@ -21,7 +21,7 @@ class Banner(commands.Cog):
 
   async def update_memeteam_banner(self):
     guild = self.bot.get_guild(MEMETEAM_DISCORD_SERVER_ID)
-    banner_row = get_random_banner()
+    banner_row = random.choice(select_banners())
     banner_file_path = self.get_banner_file_path(str(banner_row['discord_id']))
     with open(banner_file_path, 'rb') as f:
       banner = f.read()
