@@ -54,17 +54,17 @@ class Banner(commands.Cog):
     checks=[guild_check]
   )
   async def submitbanner(self, ctx):
-    banner_row = get_banner(discord_id=ctx.message.author.id)
-    if not banner_row:
+    banners = select_banners(discord_id=ctx.message.author.id)
+    if not banners:
       await ctx.send('You do not have permission to submit a banner.')
     else:
-      banner_row = banner_row[0]
-      if self.has_banner(str(banner_row['discord_id'])):
+      banner = banners[0]
+      if self.has_banner(str(banner.discord_id)):
         await ctx.send('<@!{0}>\'s submission will be replaced. Please upload a file now. Valid file types: {1}'.format(
-          banner_row['discord_id'], ', '.join(PERMITTED_BANNER_FILE_TYPES)))
+          banner.discord_id, ', '.join(PERMITTED_BANNER_FILE_TYPES)))
       else:
         await ctx.send('<@!{0}> currently has no submission. Please upload a file now. Valid file types: {1}'.format(
-          banner_row['discord_id'], ', '.join(PERMITTED_BANNER_FILE_TYPES)))
+          banner.discord_id, ', '.join(PERMITTED_BANNER_FILE_TYPES)))
 
       def banner_submission_check(message):
         return message.author.id == ctx.message.author.id and message.attachments[0].filename.split('.')[
@@ -72,10 +72,10 @@ class Banner(commands.Cog):
 
       message = await discord.Client.wait_for(self=self.bot, event='message', timeout=60.0,
                                               check=banner_submission_check)
-      if self.has_banner(str(banner_row['discord_id'])):
-        os.remove(self.get_banner_file_path(str(banner_row['discord_id'])))
+      if self.has_banner(str(banner.discord_id)):
+        os.remove(self.get_banner_file_path(str(banner.discord_id)))
       await message.attachments[0].save(
-        '{0}.{1}'.format(os.path.join(self.get_banner_folder(), str(banner_row['discord_id'])),
+        '{0}.{1}'.format(os.path.join(self.get_banner_folder(), str(banner.discord_id)),
                          message.attachments[0].filename.split('.')[-1]))
       await ctx.send('Successfully saved new banner submission.')
 
