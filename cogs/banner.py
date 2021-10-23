@@ -21,12 +21,12 @@ class Banner(commands.Cog):
 
   async def update_memeteam_banner(self):
     guild = self.bot.get_guild(MEMETEAM_DISCORD_SERVER_ID)
-    banner_row = random.choice(select_banners())
-    banner_file_path = self.get_banner_file_path(str(banner_row['discord_id']))
+    banner = random.choice(select_banners())
+    banner_file_path = self.get_banner_file_path(str(banner['discord_id']))
     with open(banner_file_path, 'rb') as f:
       banner = f.read()
       await guild.edit(banner=banner)
-      increment_banner_count(banner_row['discord_id'])
+      increment_banner_count(banner['discord_id'])
 
   async def guild_check(ctx):
     guild_id = ctx.message.guild.id
