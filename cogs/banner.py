@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import os
+import random
 
 from constants import MEMETEAM_DISCORD_SERVER_ID, BANNER_COMMAND_VALID_DISCORD_SERVER_IDS
 
