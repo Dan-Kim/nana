@@ -43,10 +43,10 @@ class Banner(commands.Cog):
     if not self.has_banner(str(ctx.message.author.id)):
       await ctx.send('No banner submission found.')
     else:
-      banner_row = get_banner(ctx.message.author.id)[0]
-      await ctx.send('<@!{0}>\'s submission. Randomly selected {1} times.'.format(banner_row['discord_id'],
-                                                                                  banner_row['times_picked']))
-      await ctx.send(file=discord.File(self.get_banner_file_path(str(banner_row['discord_id']))))
+      banner = select_banners(ctx.message.author.id)[0]
+      await ctx.send('<@!{0}>\'s submission. Randomly selected {1} times.'.format(banner['discord_id'],
+                                                                                  banner['times_picked']))
+      await ctx.send(file=discord.File(self.get_banner_file_path(str(banner['discord_id']))))
 
   @commands.command(
     description='Submit a banner. It may replace an existing banner.',
