@@ -45,7 +45,7 @@ class Banner(commands.Cog):
     else:
       banner = select_banners(ctx.message.author.id)[0]
       await ctx.send('<@!{0}>\'s submission. Randomly selected {1} times.'.format(banner.discord_id,
-                                                                                  banner['times_picked']))
+                                                                                  banner.times_picked))
       await ctx.send(file=discord.File(self.get_banner_file_path(str(banner.discord_id))))
 
   @commands.command(
