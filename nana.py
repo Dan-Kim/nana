@@ -6,11 +6,12 @@ from credentials import DISCORD_TOKEN
 
 from cogs.banner import Banner
 from cogs.crypto import Crypto
+from cogs.hydrogen import Hydrogen
 from cogs.remind import Remind
 from cogs.misc import Miscellaneous
 from cogs.minecraft import Minecraft
 
-cogs = [Banner, Crypto, Remind, Miscellaneous, Minecraft]
+cogs = [Banner, Crypto, Hydrogen, Remind, Miscellaneous, Minecraft]
 
 
 class Nana(Bot):
