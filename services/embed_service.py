@@ -115,3 +115,13 @@ def make_minecraft_embed(allocation_json, utilization_json):
   except KeyError:
     embed.add_field(name='Current Online Players (?/?)', value='Unable to fetch current online players.', inline=False)
   return embed
+
+
+#############################
+# APEX PLUGIN EMBED METHODS #
+#############################
+
+def make_legend_embed(legend_arr):
+  embed = discord.Embed(title=legend_arr[0], description=legend_arr[1], color=random.choice(COLORS))
+  embed.set_image(url=legend_arr[2])
+  return embed

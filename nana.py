@@ -4,13 +4,14 @@ from discord.ext.commands import Bot
 from constants import PREFIX
 from credentials import DISCORD_TOKEN
 
+from cogs.apex import Apex
 from cogs.banner import Banner
 from cogs.crypto import Crypto
 from cogs.remind import Remind
 from cogs.misc import Miscellaneous
 from cogs.minecraft import Minecraft
 
-cogs = [Banner, Crypto, Remind, Miscellaneous, Minecraft]
+cogs = [Apex, Banner, Crypto, Remind, Miscellaneous, Minecraft]
 
 
 class Nana(Bot):
