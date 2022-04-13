@@ -1,10 +1,12 @@
 from typing import List
 
+from datetime import datetime
 import discord
 import random
 
 from constants import PREFIX
 from models.remind import Remind
+from services.coinbase_service import coinbase_request_wrapper
 from services.time_service import get_time_from_epoch
 
 COLORS = [0xfd5e53, 0xeaebff, 0xe0fefe, 0xd3eeff, 0xffd6f3]
@@ -124,4 +126,19 @@ def make_minecraft_embed(allocation_json, utilization_json):
 def make_legend_embed(legend_arr):
   embed = discord.Embed(title=legend_arr[0], description=legend_arr[1], color=random.choice(COLORS))
   embed.set_image(url=legend_arr[2])
+  return embed
+
+
+###############################
+# CRYPTO PLUGIN EMBED METHODS #
+###############################
+
+def make_crypto_prices_embed(cryptocurrency_symbols):
+  embed = discord.Embed(title='Cryptocurrency Spot Prices',
+                        description='Updated as of <t:{0}:f>'.format(int(datetime.now().timestamp())),
+                        color=random.choice(COLORS))
+  embed.set_thumbnail(url='https://pbs.twimg.com/profile_images/1484586799921909764/A9yYenz3.png')
+  for (symbol, name, emote) in cryptocurrency_symbols:
+    price = coinbase_request_wrapper.get_price(symbol)
+    embed.add_field(name='{0} {1} ({2})'.format(emote, name, symbol), value='${0}'.format(price['data']['amount']), inline=False)
   return embed
