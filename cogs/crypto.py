@@ -36,3 +36,15 @@ class Crypto(commands.Cog):
       for channel_id in channel_ids:
         channel = self.bot.get_channel(channel_id)
         await channel.edit(name=channel_name)
+
+  @commands.command(
+    description='Look up current spot price of a cryptocurrency on Coinbase.',
+    usage='price [CURRENCY SYMBOL]'
+  )
+  async def price(self, ctx, *args):
+    currency = args[0].upper()
+    response = coinbase_request_wrapper.get_price(currency)
+    try:
+      await ctx.send('{0}: ${1}'.format(currency, response['data']['amount']))
+    except KeyError:
+      await ctx.send('{0} is not a valid cryptocurrency symbol.')
