@@ -4,7 +4,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from services.embed_service import make_crypto_prices_embed
 from services.coinbase_service import coinbase_request_wrapper
 
-PRICE_EMBED_CHANNEL_MESSAGE_DICT = {963636436588957696: 963636479706402826}
+PRICE_EMBED_CHANNEL_MESSAGE_DICT = {963636436588957696: 963636479706402826, 963647470708072558: 963647499216764978}
 
 CRYPTOCURRENCY_SYMBOLS = [
   ('BTC', 'Bitcoin', '<:btc:963631873404338216>'),
