@@ -58,7 +58,7 @@ class Crypto(commands.Cog):
 
   @commands.command(
     description='Look up current spot prices for select cryptocurrencies on Coinbase.',
-    usage='embed'
+    usage='priceembed'
   )
   async def priceembed(self, ctx, *args):
     await ctx.send(embed=make_crypto_prices_embed(CRYPTOCURRENCY_SYMBOLS))
