@@ -2,6 +2,7 @@ import sqlite3
 from typing import List
 
 from models.remind import Remind
+from models.banner import Banner
 
 NANA_DB = '../nana-db/nana.db'
 
@@ -83,9 +84,14 @@ def select_banners(discord_id='%%'):
   conn = sqlite3.connect(NANA_DB)
   c = conn.cursor()
   c.execute('SELECT * FROM banner WHERE discord_id LIKE ?', (discord_id,))
-  rows = c.fetchall()
+  banners = [
+    Banner(
+      discord_id=row[0], 
+      times_picked=row[1]
+    ) for row in c.fetchall()
+  ]
   conn.close()
-  return rows
+  return banners
 
 
 def increment_banner_count(discord_id=''):

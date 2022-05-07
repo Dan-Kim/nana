@@ -16,9 +16,6 @@ default is ugly.
 ### Models
 Models contain a native python representation of data stored in databases.
 
-### Serializers
-Serializers should be deleted and are bad.
-
 ### Services
 Services contain all logic that does not directly interact with Discord.
 This includes calls to third party APIs, complicated `Discord.embed`

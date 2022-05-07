@@ -2,12 +2,11 @@ import discord
 from discord.ext import commands
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import os
+import random
 
 from constants import MEMETEAM_DISCORD_SERVER_ID, BANNER_COMMAND_VALID_DISCORD_SERVER_IDS
 
-from serializers.banner_serializer import get_banner, get_random_banner
-
-from services.db_service import increment_banner_count
+from services.db_service import increment_banner_count, select_banners
 
 PERMITTED_BANNER_FILE_TYPES = ['png', 'jpg', 'jpeg', 'gif']
 
@@ -22,12 +21,12 @@ class Banner(commands.Cog):
 
   async def update_memeteam_banner(self):
     guild = self.bot.get_guild(MEMETEAM_DISCORD_SERVER_ID)
-    banner_row = get_random_banner()
-    banner_file_path = self.get_banner_file_path(str(banner_row['discord_id']))
+    banner = random.choice(select_banners())
+    banner_file_path = self.get_banner_file_path(str(banner.discord_id))
     with open(banner_file_path, 'rb') as f:
-      banner = f.read()
-      await guild.edit(banner=banner)
-      increment_banner_count(banner_row['discord_id'])
+      image = f.read()
+      await guild.edit(banner=image)
+      increment_banner_count(banner.discord_id)
 
   async def guild_check(ctx):
     guild_id = ctx.message.guild.id
@@ -44,10 +43,10 @@ class Banner(commands.Cog):
     if not self.has_banner(str(ctx.message.author.id)):
       await ctx.send('No banner submission found.')
     else:
-      banner_row = get_banner(ctx.message.author.id)[0]
-      await ctx.send('<@!{0}>\'s submission. Randomly selected {1} times.'.format(banner_row['discord_id'],
-                                                                                  banner_row['times_picked']))
-      await ctx.send(file=discord.File(self.get_banner_file_path(str(banner_row['discord_id']))))
+      banner = select_banners(ctx.message.author.id)[0]
+      await ctx.send('<@!{0}>\'s submission. Randomly selected {1} times.'.format(banner.discord_id,
+                                                                                  banner.times_picked))
+      await ctx.send(file=discord.File(self.get_banner_file_path(str(banner.discord_id))))
 
   @commands.command(
     description='Submit a banner. It may replace an existing banner.',
@@ -55,17 +54,17 @@ class Banner(commands.Cog):
     checks=[guild_check]
   )
   async def submitbanner(self, ctx):
-    banner_row = get_banner(discord_id=ctx.message.author.id)
-    if not banner_row:
+    banners = select_banners(discord_id=ctx.message.author.id)
+    if not banners:
       await ctx.send('You do not have permission to submit a banner.')
     else:
-      banner_row = banner_row[0]
-      if self.has_banner(str(banner_row['discord_id'])):
+      banner = banners[0]
+      if self.has_banner(str(banner.discord_id)):
         await ctx.send('<@!{0}>\'s submission will be replaced. Please upload a file now. Valid file types: {1}'.format(
-          banner_row['discord_id'], ', '.join(PERMITTED_BANNER_FILE_TYPES)))
+          banner.discord_id, ', '.join(PERMITTED_BANNER_FILE_TYPES)))
       else:
         await ctx.send('<@!{0}> currently has no submission. Please upload a file now. Valid file types: {1}'.format(
-          banner_row['discord_id'], ', '.join(PERMITTED_BANNER_FILE_TYPES)))
+          banner.discord_id, ', '.join(PERMITTED_BANNER_FILE_TYPES)))
 
       def banner_submission_check(message):
         return message.author.id == ctx.message.author.id and message.attachments[0].filename.split('.')[
@@ -73,10 +72,10 @@ class Banner(commands.Cog):
 
       message = await discord.Client.wait_for(self=self.bot, event='message', timeout=60.0,
                                               check=banner_submission_check)
-      if self.has_banner(str(banner_row['discord_id'])):
-        os.remove(self.get_banner_file_path(str(banner_row['discord_id'])))
+      if self.has_banner(str(banner.discord_id)):
+        os.remove(self.get_banner_file_path(str(banner.discord_id)))
       await message.attachments[0].save(
-        '{0}.{1}'.format(os.path.join(self.get_banner_folder(), str(banner_row['discord_id'])),
+        '{0}.{1}'.format(os.path.join(self.get_banner_folder(), str(banner.discord_id)),
                          message.attachments[0].filename.split('.')[-1]))
       await ctx.send('Successfully saved new banner submission.')
 
