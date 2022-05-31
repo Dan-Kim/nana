@@ -14,7 +14,7 @@ CRYPTOCURRENCY_SYMBOLS = [
   ('SOL', 'Solana', '<:sol:963631874578718790>'),
   ('MATIC', 'Polygon', '<:matic:963631873328820294>'),
   ('SHIB', 'SHIBA INU', '<:shib:963631874687782922>'),
-  ('WLUNA', 'Wrapped Luna', '<:wluna:963631873752444938>'),
+  #('WLUNA', 'Wrapped Luna', '<:wluna:963631873752444938>'),
   ('ADA', 'Cardano', '<:ada:963631871802114058>'),
   ('YFI', 'yearn.finance', '<:yfi:963631875027529758>'),
   ('AVAX', 'Avalanche', '<:avax:963631871370096661>'),
