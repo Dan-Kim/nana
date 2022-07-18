@@ -28,7 +28,7 @@ class MyAnimeList(commands.Cog):
         for item in xml.findall('./channel/item'):
           media_title, link, description, pub_date = item[0], item[1], item[3], item[4]
           pub_timestamp = datetime.strptime(pub_date.text, '%a, %d %b %Y %H:%M:%S %z').timestamp()
-          if pub_timestamp > (datetime.now() - timedelta(minutes=10)).timestamp():
+          if pub_timestamp > (datetime.now() - timedelta(minutes=5)).timestamp():
             await channel.send(embed=make_rss_feed_update_embed(media_title=media_title.text, link=link.text,
                                                                 description=description.text, pub_date=pub_date.text,
                                                                 media_type=media_type, user=user))
