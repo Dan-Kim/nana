@@ -142,3 +142,15 @@ def make_crypto_prices_embed(cryptocurrency_symbols):
     price = coinbase_request_wrapper.get_price(symbol)
     embed.add_field(name='{0} {1} ({2})'.format(emote, name, symbol), value='${0}'.format(price['data']['amount']), inline=False)
   return embed
+
+
+###################################
+# POKEMONTCG PLUGIN EMBED METHODS #
+###################################
+
+def make_pokemon_card_embed(card):
+  embed = discord.Embed(title=card.name, description='ID: {0}'.format(card.id), color=random.choice(COLORS))
+  embed.set_image(url=card.images.large)
+  embed.add_field(name='Market Prices',
+                  value='[CardMarket]({0})\n[TCGPlayer]({1})'.format(card.cardmarket.url, card.tcgplayer.url))
+  return embed

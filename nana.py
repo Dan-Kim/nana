@@ -7,11 +7,12 @@ from credentials import DISCORD_TOKEN
 from cogs.apex import Apex
 from cogs.banner import Banner
 from cogs.crypto import Crypto
-from cogs.remind import Remind
-from cogs.misc import Miscellaneous
 from cogs.minecraft import Minecraft
+from cogs.misc import Miscellaneous
+from cogs.pokemontcg import PokemonTCG
+from cogs.remind import Remind
 
-cogs = [Apex, Banner, Crypto, Remind, Miscellaneous, Minecraft]
+cogs = [Apex, Banner, Crypto, Minecraft, Miscellaneous, PokemonTCG, Remind]
 
 
 class Nana(Bot):
