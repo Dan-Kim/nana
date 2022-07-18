@@ -140,7 +140,8 @@ def make_crypto_prices_embed(cryptocurrency_symbols):
   embed.set_thumbnail(url='https://pbs.twimg.com/profile_images/1484586799921909764/A9yYenz3.png')
   for (symbol, name, emote) in cryptocurrency_symbols:
     price = coinbase_request_wrapper.get_price(symbol)
-    embed.add_field(name='{0} {1} ({2})'.format(emote, name, symbol), value='${0}'.format(price['data']['amount']), inline=False)
+    embed.add_field(name='{0} {1} ({2})'.format(emote, name, symbol), value='${0}'.format(price['data']['amount']),
+                    inline=False)
   return embed
 
 
@@ -153,4 +154,15 @@ def make_pokemon_card_embed(card):
   embed.set_image(url=card.images.large)
   embed.add_field(name='Market Prices',
                   value='[CardMarket]({0})\n[TCGPlayer]({1})'.format(card.cardmarket.url, card.tcgplayer.url))
+  return embed
+
+
+####################################
+# MYANIMELIST PLUGIN EMBED METHODS #
+####################################
+
+def make_rss_feed_update_embed(media_title, link, description, pub_date, media_type, user):
+  embed = discord.Embed(title='{0}\'s {1} from MyAnimeList.net'.format(user, media_type.capitalize()),
+                        description='Updated {0}'.format(pub_date), color=random.choice(COLORS))
+  embed.add_field(name=media_title, value='{0}\n{1}'.format(description, link))
   return embed

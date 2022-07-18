@@ -9,10 +9,11 @@ from cogs.banner import Banner
 from cogs.crypto import Crypto
 from cogs.minecraft import Minecraft
 from cogs.misc import Miscellaneous
+from cogs.myanimelist import MyAnimeList
 from cogs.pokemontcg import PokemonTCG
 from cogs.remind import Remind
 
-cogs = [Apex, Banner, Crypto, Minecraft, Miscellaneous, PokemonTCG, Remind]
+cogs = [Apex, Banner, Crypto, Minecraft, Miscellaneous, MyAnimeList, PokemonTCG, Remind]
 
 
 class Nana(Bot):
@@ -41,7 +42,7 @@ if __name__ == '__main__':
 
   @Bot.listen(name='on_command_error', self=bot)
   async def on_command_error(ctx, error):
-    await ctx.send('{0}\nUsage: `{1}{2}`'.format(error, PREFIX, ctx.command.usage))
+    await ctx.send('{0}\nUsage: `{1}{2}`'.format(error, PREFIX, ctx.command.usage)[:2000])
 
 
   bot.run(DISCORD_TOKEN)
