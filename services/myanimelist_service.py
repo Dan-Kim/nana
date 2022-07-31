@@ -1,7 +1,7 @@
 import requests
 
 RSS_FEED_BASE_URL = 'https://myanimelist.net/rss.php'
-RSS_FEED_TYPES = {'anime': 'rw', 'manga': 'rm'}
+RSS_FEED_TYPES = {'Anime': 'rw', 'Anime by Episode': 'rwe', 'Manga': 'rm', 'Manga by Chapter': 'rrm'}
 
 
 def get_rss_feeds_for_user(user):

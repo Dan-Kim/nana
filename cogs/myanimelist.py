@@ -25,12 +25,13 @@ class MyAnimeList(commands.Cog):
       user = row[0]
       for media_type, response_text in get_rss_feeds_for_user(user).items():
         xml = ET.ElementTree(ET.fromstring(response_text))
+        updates = []
         for item in xml.findall('./channel/item'):
           media_title, link, description, pub_date = item[0], item[1], item[3], item[4]
           pub_timestamp = datetime.strptime(pub_date.text, '%a, %d %b %Y %H:%M:%S %z').timestamp()
           if pub_timestamp > (datetime.now() - timedelta(minutes=5)).timestamp():
-            await channel.send(embed=make_rss_feed_update_embed(media_title=media_title.text, link=link.text,
-                                                                description=description.text, pub_date=pub_date.text,
-                                                                media_type=media_type, user=user))
+            updates.append((media_title.text, link.text, description.text, int(pub_timestamp)))
           else:
             break
+        if updates:
+          await channel.send(embed=make_rss_feed_update_embed(media_type=media_type, user=user, updates=updates))

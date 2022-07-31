@@ -157,12 +157,21 @@ def make_pokemon_card_embed(card):
   return embed
 
 
+######################################
+# MYANIMELIST PLUGIN EMBED CONSTANTS #
+######################################
+WHITE = 0xffffff
+BLUE = 0x0000ff
+
+
 ####################################
 # MYANIMELIST PLUGIN EMBED METHODS #
 ####################################
 
-def make_rss_feed_update_embed(media_title, link, description, pub_date, media_type, user):
-  embed = discord.Embed(title='{0}\'s {1} from MyAnimeList.net'.format(user, media_type.capitalize()),
-                        description='Updated {0}'.format(pub_date), color=random.choice(COLORS))
-  embed.add_field(name=media_title, value='{0}\n{1}'.format(description, link))
+def make_rss_feed_update_embed(media_type, user, updates):
+  embed = discord.Embed(title='{0}\'s {1} Updates from MyAnimeList.net'.format(user, media_type),
+                        description='https://myanimelist.net/profile/{0}'.format(user),
+                        color=BLUE if 'Anime' in media_type else WHITE)
+  for media_title, link, description, pub_timestamp in updates:
+    embed.add_field(name=media_title, value='{0}\n{1}\n<t:{2}>'.format(link, description, pub_timestamp), inline=False)
   return embed
