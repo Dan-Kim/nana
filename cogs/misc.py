@@ -97,7 +97,7 @@ class Miscellaneous(commands.Cog):
   @commands.Cog.listener()
   async def on_message(self, message):
     if re.search(".*mogu.*mogu.*", message.content, re.IGNORECASE):
-      channel = discord.Client.get_channel(self=self.bot, id=message.channel.id)
+      channel = self.bot.get_channel(message.channel.id)
       await channel.send('Okayu!')
 
   @commands.command(

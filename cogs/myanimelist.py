@@ -20,7 +20,7 @@ class MyAnimeList(commands.Cog):
     self.sched.start()
 
   async def poll_rss_feeds(self):
-    channel = discord.Client.get_channel(self=self.bot, id=MYANIMELIST_RSS_FEED_CHANNEL_ID)
+    channel = self.bot.get_channel(MYANIMELIST_RSS_FEED_CHANNEL_ID)
     for row in select_mal_users():
       user = row[0]
       for media_type, response_text in get_rss_feeds_for_user(user).items():

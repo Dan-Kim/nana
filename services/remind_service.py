@@ -27,6 +27,6 @@ async def send_and_delete_reminds(bot):
   timestamp = datetime.now().replace(second=0, microsecond=0).timestamp()
   reminds = select_reminds(requested_time=timestamp)
   for remind in reminds:
-    channel = discord.Client.get_channel(self=bot, id=remind.channel_id)
+    channel = bot.get_channel(remind.channel_id)
     await channel.send('<@{0}> {1}'.format(remind.user_id, remind.message))
   delete_old_reminds(requested_time=timestamp)
