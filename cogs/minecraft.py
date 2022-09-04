@@ -45,7 +45,7 @@ class Minecraft(commands.Cog):
     usage='pprint',
     checks=[guild_check, admin_check]
   )
-  async def pprint(self):
+  async def pprint(self, ctx):
     pp.pprint(winterNode_Request_Wrapper.get_allocation_data())
     pp.pprint(winterNode_Request_Wrapper.get_utilization_data())
 

@@ -13,12 +13,14 @@ from cogs.myanimelist import MyAnimeList
 from cogs.pokemontcg import PokemonTCG
 from cogs.remind import Remind
 
+intents = discord.Intents.all()
+
 cogs = [Apex, Banner, Crypto, Minecraft, Miscellaneous, MyAnimeList, PokemonTCG, Remind]
 
 
 class Nana(Bot):
   def __init__(self):
-    super().__init__(command_prefix=PREFIX, description='Nana.')
+    super().__init__(command_prefix=PREFIX, description='Nana.', intents=intents)
 
   async def on_ready(self):
     print('Logged in as {0.user.name}'.format(self))
