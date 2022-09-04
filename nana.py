@@ -23,20 +23,18 @@ class Nana(Bot):
     super().__init__(command_prefix=PREFIX, description='Nana.', intents=intents)
 
   async def on_ready(self):
+    await self.load_cogs(cogs)
     print('Logged in as {0.user.name}'.format(self))
 
-  def run(self, token):
+  async def load_cogs(self, cogs):
     for cog in cogs:
       try:
-        self.add_cog(cog(self))
+        await self.add_cog(cog(self))
         print('{0} has been loaded.'.format(cog))
       except discord.ClientException as CE:
         print('Client Exception: {0}'.format(CE))
       except ImportError as IE:
         print('Import Error: {0}'.format(IE))
-
-    super().run(token)
-
 
 if __name__ == '__main__':
   bot = Nana()
