@@ -1,4 +1,3 @@
-import discord
 from datetime import datetime
 
 from services.db_service import select_reminds, count_reminds, insert_remind, delete_old_reminds

@@ -71,8 +71,7 @@ class Banner(commands.Cog):
         return message.author.id == ctx.message.author.id and message.attachments[0].filename.split('.')[
           -1] in PERMITTED_BANNER_FILE_TYPES
 
-      message = await discord.Client.wait_for(self=self.bot, event='message', timeout=60.0,
-                                              check=banner_submission_check)
+      message = await discord.Client.wait_for('message', timeout=60.0, check=banner_submission_check)
       if self.has_banner(str(banner_row['discord_id'])):
         os.remove(self.get_banner_file_path(str(banner_row['discord_id'])))
       await message.attachments[0].save(
