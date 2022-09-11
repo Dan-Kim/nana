@@ -35,6 +35,12 @@ class Banner(commands.Cog):
       raise commands.CommandError(message='This command is not available in this server.')
     return True
 
+  async def banner_permission_check(ctx):
+    banner_row = get_banner(discord_id=ctx.message.author.id)
+    if not banner_row:
+      raise commands.CommandError(message='You do not have permission to submit a banner.')
+    return True
+
   @commands.command(
     description='Display your banner submission.',
     usage='banner',
@@ -52,32 +58,28 @@ class Banner(commands.Cog):
   @commands.command(
     description='Submit a banner. It may replace an existing banner.',
     usage='submitbanner',
-    checks=[guild_check]
+    checks=[guild_check, banner_permission_check]
   )
   async def submitbanner(self, ctx):
-    banner_row = get_banner(discord_id=ctx.message.author.id)
-    if not banner_row:
-      await ctx.send('You do not have permission to submit a banner.')
+    banner_row = get_banner(discord_id=ctx.message.author.id)[0]
+    if self.has_banner(str(banner_row['discord_id'])):
+      await ctx.send('<@!{0}>\'s submission will be replaced. Please upload a file now. Valid file types: {1}'.format(
+        banner_row['discord_id'], ', '.join(PERMITTED_BANNER_FILE_TYPES)))
     else:
-      banner_row = banner_row[0]
-      if self.has_banner(str(banner_row['discord_id'])):
-        await ctx.send('<@!{0}>\'s submission will be replaced. Please upload a file now. Valid file types: {1}'.format(
-          banner_row['discord_id'], ', '.join(PERMITTED_BANNER_FILE_TYPES)))
-      else:
-        await ctx.send('<@!{0}> currently has no submission. Please upload a file now. Valid file types: {1}'.format(
-          banner_row['discord_id'], ', '.join(PERMITTED_BANNER_FILE_TYPES)))
+      await ctx.send('<@!{0}> currently has no submission. Please upload a file now. Valid file types: {1}'.format(
+        banner_row['discord_id'], ', '.join(PERMITTED_BANNER_FILE_TYPES)))
 
-      def banner_submission_check(message):
-        return message.author.id == ctx.message.author.id and message.attachments[0].filename.split('.')[
-          -1] in PERMITTED_BANNER_FILE_TYPES
+    def banner_submission_check(message):
+      return message.author.id == ctx.message.author.id and message.attachments[0].filename.split('.')[
+        -1] in PERMITTED_BANNER_FILE_TYPES
 
-      message = await discord.Client.wait_for('message', timeout=60.0, check=banner_submission_check)
-      if self.has_banner(str(banner_row['discord_id'])):
-        os.remove(self.get_banner_file_path(str(banner_row['discord_id'])))
-      await message.attachments[0].save(
-        '{0}.{1}'.format(os.path.join(self.get_banner_folder(), str(banner_row['discord_id'])),
-                         message.attachments[0].filename.split('.')[-1]))
-      await ctx.send('Successfully saved new banner submission.')
+    message = await discord.Client.wait_for(self.bot, 'message', timeout=60.0, check=banner_submission_check)
+    if self.has_banner(str(banner_row['discord_id'])):
+      os.remove(self.get_banner_file_path(str(banner_row['discord_id'])))
+    await message.attachments[0].save(
+      '{0}.{1}'.format(os.path.join(self.get_banner_folder(), str(banner_row['discord_id'])),
+                       message.attachments[0].filename.split('.')[-1]))
+    await ctx.send('Successfully saved new banner submission.')
 
   def has_banner(self, discord_id):
     folder = self.get_banner_folder()
