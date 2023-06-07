@@ -1,7 +1,7 @@
-import discord
 from discord.ext import commands
 from datetime import datetime, timedelta
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import time
 import xml.etree.ElementTree as ET
 
 from constants import MYANIMELIST_RSS_FEED_CHANNEL_ID
@@ -15,8 +15,9 @@ class MyAnimeList(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.sched = AsyncIOScheduler(daemon=True)
-    self.sched.add_job(func=self.poll_rss_feeds, trigger='cron', args=[], max_instances=1, minute='0,5,10,15,20,25,'
-                                                                                                  '30,35,40,45,50,55')
+    self.sched.add_job(func=self.poll_rss_feeds, trigger='cron', args=[], max_instances=1, minute='0,5,10,15,20,25,30,'
+                                                                                                  '35,40,45,50,55',
+                       second='37')
     self.sched.start()
 
   async def poll_rss_feeds(self):
@@ -35,3 +36,4 @@ class MyAnimeList(commands.Cog):
             break
         if updates:
           await channel.send(embed=make_rss_feed_update_embed(media_type=media_type, user=user, updates=updates))
+      time.sleep(3)
