@@ -36,4 +36,4 @@ class MyAnimeList(commands.Cog):
             break
         if updates:
           await channel.send(embed=make_rss_feed_update_embed(media_type=media_type, user=user, updates=updates))
-      time.sleep(3)
+      time.sleep(1)

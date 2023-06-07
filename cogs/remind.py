@@ -13,7 +13,7 @@ class Remind(commands.Cog):
     self.bot = bot
     self.reminds = {}
     self.sched = AsyncIOScheduler(daemon=True)
-    self.sched.add_job(func=send_and_delete_reminds, trigger='cron', args=[self.bot], max_instances=1, second=0)
+    self.sched.add_job(func=send_and_delete_reminds, trigger='cron', args=[self.bot], max_instances=1, second=4)
     self.sched.start()
 
   async def remind_check(ctx):

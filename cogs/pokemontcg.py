@@ -14,7 +14,7 @@ class PokemonTCG(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.sched = AsyncIOScheduler(daemon=True)
-    self.sched.add_job(func=self.remove_card_iter, trigger='cron', args=[], max_instances=1, second='15')
+    #self.sched.add_job(func=self.remove_card_iter, trigger='cron', args=[], max_instances=1, second='15')
     self.sched.start()
     self.card_iters = {}
 
