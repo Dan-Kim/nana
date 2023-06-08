@@ -17,7 +17,7 @@ class Banner(commands.Cog):
     self.bot = bot
     self.sched = AsyncIOScheduler(daemon=True)
     self.sched.add_job(func=self.update_memeteam_banner, trigger='cron', args=[], max_instances=1,
-                       hour='0,4,8,12,16,20', second='23', timezone='US/Pacific')
+                       hour='0,4,8,12,16,20', minute='1', second='23', timezone='US/Pacific')
     self.sched.start()
 
   async def update_memeteam_banner(self):
