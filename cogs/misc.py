@@ -4,7 +4,7 @@ import os
 import time
 import re
 
-from constants import ADMIN_DISCORD_ID
+from constants import ADMIN_DISCORD_ID, COMMAND_USAGE_CHANNEL_ID, PREFIX
 
 from services.embed_service import make_harpsichord_embed, make_help_embed
 from services.jisho_service import search_jisho
@@ -123,3 +123,13 @@ class Miscellaneous(commands.Cog):
     else:
       self.init_command_usage_dict()
       await ctx.send(embed=make_help_embed(self.command_usage_dict))
+
+  @commands.Cog.listener()
+  async def on_message(self, message):
+    if message.content.startswith(PREFIX):
+      usage_channel = self.bot.get_channel(COMMAND_USAGE_CHANNEL_ID)
+      if len(message.content) >= 1900:
+        await usage_channel.send('*Part 1*\n**{0}**: {1}'.format(message.author, message.content[0:1000]))
+        await usage_channel.send('*Part 2*\n**{0}**: {1}'.format(message.author, message.content[1000:]))
+      else:
+        await usage_channel.send('**{0}**: {1}'.format(message.author, message.content))
