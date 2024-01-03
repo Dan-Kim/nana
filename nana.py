@@ -10,11 +10,10 @@ from cogs.crypto import Crypto
 from cogs.minecraft import Minecraft
 from cogs.misc import Miscellaneous
 from cogs.myanimelist import MyAnimeList
-from cogs.remind import Remind
 
 intents = discord.Intents.all()
 
-cogs = [Apex, Banner, Crypto, Minecraft, Miscellaneous, MyAnimeList, Remind]
+cogs = [Apex, Banner, Crypto, Minecraft, Miscellaneous, MyAnimeList]
 
 
 class Nana(Bot):
