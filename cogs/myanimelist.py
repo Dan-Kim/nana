@@ -11,13 +11,13 @@ from services.embed_service import make_rss_feed_update_embed
 from services.myanimelist_service import get_rss_feeds_for_user
 
 
+INTERVAL = 30
+
 class MyAnimeList(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.sched = AsyncIOScheduler(daemon=True)
-    self.sched.add_job(func=self.poll_rss_feeds, trigger='cron', args=[], max_instances=1, minute='0,5,10,15,20,25,30,'
-                                                                                                  '35,40,45,50,55',
-                       second='37')
+    self.sched.add_job(func=self.poll_rss_feeds, trigger='cron', args=[], max_instances=1, minute='0,30,', second='37')
     self.sched.start()
 
   async def poll_rss_feeds(self):
@@ -30,7 +30,7 @@ class MyAnimeList(commands.Cog):
         for item in xml.findall('./channel/item'):
           media_title, link, description, pub_date = item[0], item[1], item[3], item[4]
           pub_timestamp = datetime.strptime(pub_date.text, '%a, %d %b %Y %H:%M:%S %z').timestamp()
-          if pub_timestamp > (datetime.now() - timedelta(minutes=5)).timestamp():
+          if pub_timestamp > (datetime.now() - timedelta(minutes=INTERVAL)).timestamp():
             updates.append((media_title.text, link.text, description.text, int(pub_timestamp)))
           else:
             break

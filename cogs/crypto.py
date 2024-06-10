@@ -32,7 +32,7 @@ class Crypto(commands.Cog):
     self.bot = bot
     self.sched = AsyncIOScheduler(daemon=True)
     self.sched.add_job(func=self.fetch_and_update_crypto_prices, trigger='cron', args=[], max_instances=1,
-                       minute='0,5,10,15,20,25,30,35,40,45,50,55', second='20')
+                       minute='0,30', second='20')
     self.sched.start()
 
   async def fetch_and_update_crypto_prices(self):
