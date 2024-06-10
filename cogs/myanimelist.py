@@ -17,7 +17,7 @@ class MyAnimeList(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
     self.sched = AsyncIOScheduler(daemon=True)
-    self.sched.add_job(func=self.poll_rss_feeds, trigger='cron', args=[], max_instances=1, minute='0,30,', second='37')
+    self.sched.add_job(func=self.poll_rss_feeds, trigger='cron', args=[], max_instances=1, minute='0,30', second='37')
     self.sched.start()
 
   async def poll_rss_feeds(self):
