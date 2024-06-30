@@ -2,6 +2,7 @@ import random
 
 LEGENDS = [
   ['Ash', 'アッシュ', 'https://static.wikia.nocookie.net/apexlegends_gamepedia_en/images/7/70/Ash.jpg/revision/latest'],
+  ['Alter', 'アルター', 'https://static.wikia.nocookie.net/apexlegends_gamepedia_en/images/f/f8/Alter.jpg/revision/latest'],
   ['Ballistic', 'バリスティック', 'https://static.wikia.nocookie.net/apexlegends_gamepedia_en/images/4/4a/Ballistic.jpg/revision/latest'],
   ['Bangalore', 'バンガロール', 'https://static.wikia.nocookie.net/apexlegends_gamepedia_en/images/f/f7/Bangalore.jpg/revision/latest'],
   ['Bloodhound', 'ブラッドハウンド', 'https://static.wikia.nocookie.net/apexlegends_gamepedia_en/images/0/05/Bloodhound.jpg/revision/latest'],

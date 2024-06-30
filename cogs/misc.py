@@ -6,9 +6,8 @@ import re
 
 from constants import ADMIN_DISCORD_ID, COMMAND_USAGE_CHANNEL_ID, PREFIX
 
-from services.embed_service import make_harpsichord_embed, make_help_embed
+from services.embed_service import make_help_embed
 from services.jisho_service import search_jisho
-from services.mongo_service import get_most_recent_harpsichord_data
 from services.time_service import get_current_japan_time
 
 
@@ -99,13 +98,6 @@ class Miscellaneous(commands.Cog):
     if re.search(".*mogu.*mogu.*", message.content, re.IGNORECASE):
       channel = self.bot.get_channel(message.channel.id)
       await channel.send('Okayu!')
-
-  @commands.command(
-    description='Most recent harpsichord room data.',
-    usage='harpsichord'
-  )
-  async def harpsichord(self, ctx):
-    await ctx.send(embed=make_harpsichord_embed(get_most_recent_harpsichord_data()))
 
   @commands.command(
     description='Get the help message with proper usage instructions.',

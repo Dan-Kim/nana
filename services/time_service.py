@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import pytz
 
 pst = pytz.timezone('US/Pacific')
@@ -35,42 +35,7 @@ def get_weekday(dt):
   return day_dic[num]
 
 
-def validate_time(hour, minute, AMPM):
-  if hour > 12 or hour <= 0:
-    raise ValueError('Hour must be within 1-12.')
-  elif minute < 0 or minute > 59:
-    raise ValueError('Minute must be within 0-59.')
-  elif AMPM != 'AM' and AMPM != 'PM':
-    raise ValueError('Must specify AM or PM.')
-
-
-def attempt_to_create_valid_datetime(time, AMPM):
-  time_arr = time.split(':')
-  hour = int(time_arr[0])
-  mins = int(time_arr[1])
-  AMPM = AMPM.upper()
-
-  validate_time(hour, mins, AMPM)
-
-  hour = hour - 12 if hour == 12 and AMPM == 'AM' else hour
-  hour = hour + 12 if hour != 12 and AMPM == 'PM' else hour
-  return datetime.now(pst).replace(hour=hour, minute=mins, second=0, microsecond=0)
-
-
-def get_nearest_datetime(time, AMPM):
-  date = attempt_to_create_valid_datetime(time, AMPM)
-  now = datetime.now(pst)
-
-  if date < now:
-    date = date + timedelta(days=1)
-  return date.timestamp()
-
-
 def get_current_japan_time():
   jp_dt = datetime.now()
   return '{0}, {1}, {2}'.format(get_weekday(jp_dt), get_date_from_epoch(jp_dt.timestamp(), tz=jst),
                                 get_time_from_epoch(datetime.now().timestamp(), tz=jst))
-
-
-def get_current_timestamp():
-  return int(datetime.now().replace(microsecond=0).timestamp())
