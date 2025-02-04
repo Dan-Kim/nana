@@ -7,12 +7,13 @@ from credentials import DISCORD_TOKEN
 from cogs.apex import Apex
 from cogs.banner import Banner
 from cogs.crypto import Crypto
+from cogs.minecraft import Minecraft
 from cogs.misc import Miscellaneous
 from cogs.myanimelist import MyAnimeList
 
 intents = discord.Intents.all()
 
-cogs = [Apex, Banner, Crypto, Miscellaneous, MyAnimeList]
+cogs = [Apex, Banner, Crypto, Minecraft, Miscellaneous, MyAnimeList]
 
 
 class Nana(Bot):

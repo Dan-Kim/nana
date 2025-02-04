@@ -47,9 +47,65 @@ def make_crypto_prices_embed(cryptocurrency_symbols):
   return embed
 
 
+####################################
+# MINECRAFT PLUGIN EMBED CONSTANTS #
+####################################
+
+THUMBNAIL_URLS = [
+  'https://cdn2.steamgriddb.com/icon_thumb/5cc8dfeade12d0c5cd741edb9ae24d81.png'
+]
+
+
+##################################
+# MINECRAFT PLUGIN EMBED METHODS #
+##################################
+
+def make_minecraft_embed(allocation_json, resources_json, current_timestamp):
+  embed = discord.Embed(title='CobblersUnited', description='Updated <t:{0}:F>'.format(current_timestamp), color=random.choice(COLORS))
+  embed.set_thumbnail(url=random.choice(THUMBNAIL_URLS))
+  try:
+    allocation = allocation_json['attributes']['relationships']['allocations']['data'][0]['attributes']
+    embed.add_field(name='IP', value='{0}:{1}'.format(allocation['ip'], allocation['port']), inline=False)
+  except (KeyError, IndexError):
+    embed.add_field(name='IP', value='No IP allocated for this server.')
+
+  try:
+    resources = resources_json['proc']
+  except KeyError:
+    embed.add_field(name='Resources Info',
+                    value='Unable to fetch server state, memory usage, disk usage, CPU usage, and online players.')
+    return embed
+
+  try:
+    embed.add_field(name='Server State', value='ON' if resources_json['status'] == 1 else 'OFF', inline=False)
+  except KeyError:
+    embed.add_field(name='Server State', value='Unable to fetch server state.', inline=False)
+
+  try:
+    embed.add_field(name='Memory Usage',
+                    value='{0}%'.format(round(resources['memory']['total']/resources['memory']['limit']*100), 2),
+                    inline=False)
+  except KeyError:
+    embed.add_field(name='Memory Usage', value='Unable to fetch memory usage.', inline=False)
+
+  try:
+    num_players = len(resources_json['query']['players'])
+    current_online_players_name = 'Current Online Players {0}/{1}'.format(num_players,
+                                                                          resources_json['query']['maxplayers'])
+    if num_players == 0:
+      current_online_players_value = 'No players online'
+    else:
+      current_online_players_value = '\n'.join(resources_json['query']['players'])
+    embed.add_field(name=current_online_players_name, value=current_online_players_value, inline=False)
+  except KeyError:
+    embed.add_field(name='Current Online Players (?/?)', value='Unable to fetch current online players.', inline=False)
+  return embed
+
+
 ######################################
 # MYANIMELIST PLUGIN EMBED CONSTANTS #
 ######################################
+
 WHITE = 0xffffff
 BLUE = 0x0000ff
 

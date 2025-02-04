@@ -39,3 +39,7 @@ def get_current_japan_time():
   jp_dt = datetime.now()
   return '{0}, {1}, {2}'.format(get_weekday(jp_dt), get_date_from_epoch(jp_dt.timestamp(), tz=jst),
                                 get_time_from_epoch(datetime.now().timestamp(), tz=jst))
+
+
+def get_current_timestamp():
+  return int(datetime.now().replace(microsecond=0).timestamp())
