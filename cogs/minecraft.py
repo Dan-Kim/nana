@@ -13,9 +13,9 @@ pp = pprint.PrettyPrinter(indent=4)
 class Minecraft(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-    self.sched = AsyncIOScheduler(daemon=True)
-    self.sched.add_job(func=self.fetch_and_update_server_info, trigger='cron', args=[], max_instances=1, minute='5')
-    self.sched.start()
+    #self.sched = AsyncIOScheduler(daemon=True)
+    #self.sched.add_job(func=self.fetch_and_update_server_info, trigger='cron', args=[], max_instances=1, minute='5')
+    #self.sched.start()
 
   async def guild_check(ctx):
     guild_id = ctx.message.guild.id
